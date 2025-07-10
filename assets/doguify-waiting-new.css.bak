@@ -1,0 +1,183 @@
+/* Archivo: assets/doguify-waiting-new.css */
+/* Estilos adicionales para evitar conflictos con temas de WordPress */
+
+/* Reset específico para la página de espera */
+.doguify-waiting-page-new {
+    all: initial;
+    font-family: 'Rubik', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: #4690E8;
+    min-height: 100vh;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+
+/* Asegurar que el header y footer se muestren correctamente */
+body.doguify-waiting-body {
+    margin: 0;
+    padding: 0;
+}
+
+.doguify-waiting-body .site-header,
+.doguify-waiting-body .site-footer {
+    position: relative;
+    z-index: 10;
+}
+
+/* Prevenir que el tema interfiera con nuestros estilos */
+.doguify-waiting-page-new * {
+    box-sizing: border-box;
+}
+
+.doguify-waiting-page-new h1,
+.doguify-waiting-page-new h2,
+.doguify-waiting-page-new h3,
+.doguify-waiting-page-new p {
+    margin: 0;
+    padding: 0;
+    font-family: inherit;
+    color: inherit;
+    line-height: inherit;
+}
+
+.doguify-waiting-page-new img {
+    max-width: 100%;
+    height: auto;
+    border: none;
+    box-shadow: none;
+}
+
+/* Estilos específicos para diferentes tamaños de pantalla */
+@media (min-width: 1400px) {
+    .doguify-left-pets {
+        max-width: 350px;
+    }
+    
+    .doguify-right-pets {
+        max-width: 400px;
+    }
+    
+    .doguify-main-title {
+        font-size: 4rem;
+    }
+}
+
+@media (max-width: 1200px) and (min-width: 769px) {
+    .doguify-left-pets {
+        max-width: 200px;
+    }
+    
+    .doguify-right-pets {
+        max-width: 250px;
+    }
+}
+
+/* Ajustes para tablets en orientación vertical */
+@media (max-width: 768px) and (min-width: 481px) {
+    .doguify-waiting-content {
+        padding: 40px 30px;
+    }
+    
+    .doguify-main-title {
+        font-size: 2.8rem;
+    }
+    
+    .doguify-center-content {
+        max-width: 500px;
+    }
+}
+
+/* Mejoras de accesibilidad */
+.doguify-waiting-page-new .doguify-progress-bar-new {
+    role: progressbar;
+    aria-label: "Progreso de la comparativa";
+}
+
+.doguify-waiting-page-new .doguify-status-text {
+    role: status;
+    aria-live: polite;
+}
+
+/* Optimizaciones de rendimiento */
+.doguify-pets-image {
+    will-change: transform;
+    backface-visibility: hidden;
+}
+
+.doguify-progress-fill-new {
+    will-change: width;
+}
+
+/* Fallbacks para navegadores antiguos */
+.doguify-waiting-page-new {
+    background: #4690E8; /* Fallback si las variables CSS no funcionan */
+}
+
+@supports not (backdrop-filter: blur(10px)) {
+    .doguify-progress-bar-new {
+        background: rgba(255, 255, 255, 0.4);
+    }
+}
+
+/* Estilos para modo de alto contraste */
+@media (prefers-contrast: high) {
+    .doguify-progress-bar-new {
+        background: rgba(0, 0, 0, 0.3);
+        border: 1px solid white;
+    }
+    
+    .doguify-progress-fill-new {
+        background: white;
+        border: 1px solid #000;
+    }
+}
+
+/* Respeto por las preferencias de movimiento reducido */
+@media (prefers-reduced-motion: reduce) {
+    .doguify-waiting-content > *,
+    .doguify-left-pets,
+    .doguify-right-pets,
+    .doguify-progress-fill-new::after {
+        animation: none;
+    }
+    
+    .doguify-progress-fill-new {
+        transition: width 0.1s linear;
+    }
+}
+
+/* Estilos para impresión (si alguien intenta imprimir) */
+@media print {
+    .doguify-waiting-page-new {
+        background: white;
+        color: black;
+    }
+    
+    .doguify-left-pets,
+    .doguify-right-pets {
+        display: none;
+    }
+}
+
+/* Estilos de carga para imágenes */
+.doguify-pets-image {
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.doguify-pets-image.loaded {
+    opacity: 1;
+}
+
+/* Indicador de carga para el logo */
+.doguify-logo {
+    transition: all 0.3s ease;
+}
+
+.doguify-logo.loading {
+    opacity: 0.5;
+    transform: scale(0.95);
+}

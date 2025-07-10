@@ -1,0 +1,710 @@
+/* Doguify Comparador CSS */
+
+/* Variables CSS */
+:root {
+    --doguify-primary: #667eea;
+    --doguify-secondary: #764ba2;
+    --doguify-accent: #F26419;
+    --doguify-success: #2ecc71;
+    --doguify-error: #e74c3c;
+    --doguify-white: #ffffff;
+    --doguify-gray-light: #f8f9fa;
+    --doguify-gray: #6c757d;
+    --doguify-dark: #333333;
+    --doguify-border-radius: 8px;
+    --doguify-box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    --doguify-transition: all 0.3s ease;
+}
+
+/* Formulario Base */
+.doguify-formulario-container {
+    width: 100%;
+    font-family: 'Rubik', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.doguify-formulario-wrapper {
+    background: linear-gradient(135deg, var(--doguify-primary), var(--doguify-secondary));
+    border-radius: 15px;
+    padding: 40px;
+    box-shadow: var(--doguify-box-shadow);
+    color: var(--doguify-white);
+}
+
+.doguify-formulario-title {
+    text-align: center;
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 30px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Filas del formulario */
+.doguify-formulario-row {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 25px;
+    align-items: end;
+}
+
+.doguify-formulario-row-secondary {
+    margin-bottom: 30px;
+}
+
+.doguify-checkbox-row {
+    display: flex;
+    justify-content: flex-start;
+    margin-top: 20px;
+}
+
+/* Grupos de campos */
+.doguify-group {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.doguify-group-edad {
+    flex: 1.2;
+}
+
+.doguify-button-group {
+    flex-shrink: 0;
+    display: flex;
+    align-items: end;
+}
+
+/* Radio buttons */
+.doguify-radio-group {
+    display: flex;
+    gap: 30px;
+    align-items: center;
+    flex-shrink: 0;
+    margin-right: 20px;
+}
+
+.doguify-radio-option {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    color: var(--doguify-white);
+    font-size: 16px;
+    font-weight: 600;
+    transition: var(--doguify-transition);
+}
+
+.doguify-radio-option:hover {
+    transform: translateX(2px);
+}
+
+.doguify-radio-option input[type="radio"] {
+    width: 18px;
+    height: 18px;
+    margin-right: 10px;
+    accent-color: var(--doguify-accent);
+    cursor: pointer;
+}
+
+/* Labels y inputs */
+.doguify-label {
+    color: var(--doguify-white);
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    display: block;
+}
+
+.doguify-input,
+.doguify-select {
+    width: 100%;
+    border: none;
+    border-radius: var(--doguify-border-radius);
+    background: var(--doguify-white);
+    font-size: 16px;
+    font-weight: 400;
+    color: var(--doguify-dark);
+    box-sizing: border-box;
+    transition: var(--doguify-transition);
+    padding: 12px 15px;
+    height: 48px;
+}
+
+.doguify-input:focus,
+.doguify-select:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.3);
+    transform: translateY(-2px);
+}
+
+.doguify-input::placeholder {
+    color: var(--doguify-gray);
+}
+
+.doguify-select {
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23999' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 16px;
+    padding-right: 40px;
+}
+
+/* Campos de edad */
+.doguify-edad-inputs {
+    display: flex;
+    gap: 10px;
+}
+
+.doguify-input-small {
+    flex: 1;
+    min-width: 60px;
+    text-align: center;
+}
+
+/* Checkbox */
+.doguify-checkbox-group {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.doguify-checkbox {
+    width: 18px;
+    height: 18px;
+    accent-color: var(--doguify-accent);
+    cursor: pointer;
+    margin-top: 2px;
+    flex-shrink: 0;
+}
+
+.doguify-checkbox-text {
+    color: var(--doguify-white);
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.4;
+    cursor: pointer;
+}
+
+.doguify-checkbox-text a {
+    color: var(--doguify-accent);
+    text-decoration: underline;
+}
+
+/* Botón principal */
+.doguify-submit-btn {
+    background: var(--doguify-accent);
+    color: var(--doguify-white);
+    border: none;
+    padding: 12px 30px;
+    border-radius: var(--doguify-border-radius);
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--doguify-transition);
+    min-width: 200px;
+    height: 48px;
+    white-space: nowrap;
+}
+
+.doguify-submit-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(242, 100, 25, 0.4);
+    background: #e05a17;
+}
+
+.doguify-submit-btn:disabled {
+    background: var(--doguify-gray);
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+/* Errores */
+.doguify-errors {
+    background: rgba(231, 76, 60, 0.1);
+    border: 1px solid rgba(231, 76, 60, 0.3);
+    border-radius: var(--doguify-border-radius);
+    padding: 15px;
+    margin-bottom: 20px;
+    color: var(--doguify-white);
+    font-size: 14px;
+}
+
+.doguify-errors ul {
+    margin: 0;
+    padding-left: 20px;
+}
+
+.doguify-errors li {
+    margin-bottom: 5px;
+}
+
+/* Página de Espera */
+.doguify-waiting-page {
+    min-height: 100vh;
+    background: linear-gradient(135deg, var(--doguify-primary), var(--doguify-secondary));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Rubik', sans-serif;
+    color: var(--doguify-white);
+}
+
+.doguify-progress-container {
+    background: var(--doguify-white);
+    border-radius: 20px;
+    padding: 50px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    max-width: 500px;
+    width: 90%;
+    color: var(--doguify-dark);
+}
+
+.doguify-progress-title {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: var(--doguify-primary);
+}
+
+.doguify-progress-subtitle {
+    font-size: 1rem;
+    color: var(--doguify-gray);
+    margin-bottom: 40px;
+}
+
+.doguify-progress-bar {
+    background: #e9ecef;
+    border-radius: 25px;
+    height: 20px;
+    margin-bottom: 20px;
+    overflow: hidden;
+    position: relative;
+}
+
+.doguify-progress-fill {
+    background: linear-gradient(90deg, var(--doguify-success), #27ae60);
+    height: 100%;
+    border-radius: 25px;
+    transition: width 0.3s ease;
+    position: relative;
+}
+
+.doguify-progress-fill::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    animation: doguify-shimmer 2s infinite;
+}
+
+@keyframes doguify-shimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+.doguify-progress-text {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--doguify-primary);
+    margin-bottom: 10px;
+}
+
+.doguify-status-text {
+    font-size: 1rem;
+    color: var(--doguify-gray);
+    margin-bottom: 30px;
+}
+
+.doguify-mascot-animation {
+    font-size: 4rem;
+    animation: doguify-bounce 2s infinite;
+    margin-bottom: 20px;
+}
+
+@keyframes doguify-bounce {
+    0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+    40% { transform: translateY(-10px); }
+    60% { transform: translateY(-5px); }
+}
+
+/* Página de Resultados */
+.doguify-results-page {
+    min-height: 100vh;
+    background: var(--doguify-gray-light);
+    padding: 50px 20px;
+    font-family: 'Rubik', sans-serif;
+}
+
+.doguify-results-container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.doguify-results-header {
+    background: linear-gradient(135deg, var(--doguify-primary), var(--doguify-secondary));
+    color: var(--doguify-white);
+    padding: 40px;
+    border-radius: 15px;
+    text-align: center;
+    margin-bottom: 30px;
+    box-shadow: var(--doguify-box-shadow);
+}
+
+.doguify-results-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.doguify-results-subtitle {
+    font-size: 1.2rem;
+    opacity: 0.9;
+}
+
+.doguify-price-card {
+    background: var(--doguify-white);
+    border-radius: 15px;
+    padding: 40px;
+    margin-bottom: 30px;
+    box-shadow: var(--doguify-box-shadow);
+    text-align: center;
+}
+
+.doguify-price-amount {
+    font-size: 3rem;
+    font-weight: 700;
+    color: var(--doguify-success);
+    margin-bottom: 10px;
+}
+
+.doguify-price-period {
+    font-size: 1.2rem;
+    color: var(--doguify-gray);
+    margin-bottom: 20px;
+}
+
+.doguify-mascot-info {
+    background: var(--doguify-white);
+    border-radius: 15px;
+    padding: 30px;
+    margin-bottom: 30px;
+    box-shadow: var(--doguify-box-shadow);
+}
+
+.doguify-info-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--doguify-primary);
+    margin-bottom: 20px;
+}
+
+.doguify-info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.doguify-info-item {
+    text-align: center;
+    padding: 20px;
+    background: var(--doguify-gray-light);
+    border-radius: var(--doguify-border-radius);
+}
+
+.doguify-info-label {
+    font-size: 0.9rem;
+    color: var(--doguify-gray);
+    margin-bottom: 5px;
+}
+
+.doguify-info-value {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--doguify-dark);
+}
+
+/* Botones */
+.doguify-btn {
+    display: inline-block;
+    padding: 12px 24px;
+    border: none;
+    border-radius: var(--doguify-border-radius);
+    font-size: 16px;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    transition: var(--doguify-transition);
+    text-align: center;
+}
+
+.doguify-btn-primary {
+    background: var(--doguify-accent);
+    color: var(--doguify-white);
+}
+
+.doguify-btn-primary:hover {
+    background: #e05a17;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(242, 100, 25, 0.3);
+}
+
+.doguify-btn-secondary {
+    background: var(--doguify-gray);
+    color: var(--doguify-white);
+}
+
+.doguify-btn-secondary:hover {
+    background: #5a6268;
+    transform: translateY(-2px);
+}
+
+.doguify-actions {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+/* Error states */
+.doguify-error {
+    background: var(--doguify-white);
+    border-radius: 15px;
+    padding: 40px;
+    text-align: center;
+    color: var(--doguify-error);
+}
+
+.doguify-error h3 {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+}
+
+.doguify-error p {
+    margin-bottom: 20px;
+    color: var(--doguify-gray);
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .doguify-formulario-wrapper {
+        padding: 30px;
+    }
+    
+    .doguify-formulario-row {
+        gap: 15px;
+    }
+    
+    .doguify-radio-group {
+        gap: 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    .doguify-formulario-row {
+        flex-direction: column;
+        gap: 0;
+    }
+    
+    .doguify-group,
+    .doguify-group-edad,
+    .doguify-button-group {
+        margin-bottom: 20px;
+        width: 100%;
+    }
+    
+    .doguify-radio-group {
+        justify-content: center;
+        margin-bottom: 20px;
+        margin-right: 0;
+    }
+    
+    .doguify-submit-btn {
+        width: 100%;
+        min-width: auto;
+    }
+    
+    .doguify-progress-container {
+        padding: 30px 20px;
+    }
+    
+    .doguify-progress-title {
+        font-size: 1.5rem;
+    }
+    
+    .doguify-results-header {
+        padding: 30px 20px;
+    }
+    
+    .doguify-results-title {
+        font-size: 2rem;
+    }
+    
+    .doguify-price-amount {
+        font-size: 2.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .doguify-formulario-container {
+        padding: 10px;
+    }
+    
+    .doguify-formulario-wrapper {
+        padding: 20px;
+    }
+    
+    .doguify-formulario-title {
+        font-size: 2rem;
+    }
+    
+    .doguify-radio-group {
+        gap: 15px;
+    }
+    
+    .doguify-radio-option {
+        font-size: 14px;
+    }
+    
+    .doguify-input,
+    .doguify-select {
+        font-size: 14px;
+        height: 44px;
+        padding: 10px 12px;
+    }
+    
+    .doguify-submit-btn {
+        font-size: 16px;
+        height: 44px;
+    }
+    
+    .doguify-edad-inputs {
+        gap: 8px;
+    }
+    
+    .doguify-input-small {
+        min-width: 50px;
+        padding: 10px 8px;
+    }
+}
+
+/* Animaciones adicionales */
+.doguify-input:hover:not(:focus),
+.doguify-select:hover:not(:focus) {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.doguify-checkbox-group:hover .doguify-checkbox-text {
+    transform: translateX(2px);
+}
+
+/* Estados de validación */
+.doguify-input.error,
+.doguify-select.error {
+    border: 2px solid var(--doguify-error);
+    box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.2);
+}
+
+.doguify-input.valid,
+.doguify-select.valid {
+    border: 2px solid var(--doguify-success);
+    box-shadow: 0 0 0 3px rgba(46, 204, 113, 0.2);
+}
+
+.doguify-input.error,
+.doguify-select.error {
+    border: 2px solid var(--doguify-error) !important;
+    box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.2) !important;
+    background-color: rgba(231, 76, 60, 0.05) !important;
+}
+
+.doguify-input.valid,
+.doguify-select.valid {
+    border: 2px solid var(--doguify-success) !important;
+    box-shadow: 0 0 0 3px rgba(46, 204, 113, 0.2) !important;
+    background-color: rgba(46, 204, 113, 0.05) !important;
+}
+
+/* Mensaje de información de fecha */
+.doguify-fecha-info {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 12px;
+    margin-top: 5px;
+    display: block;
+    text-align: center;
+    font-style: italic;
+}
+
+/* Animación de shake para errores */
+@keyframes doguify-shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+}
+
+.doguify-input.error {
+    animation: doguify-shake 0.5s ease-in-out;
+}
+
+/* Tooltip de error */
+.doguify-input.error[data-error]::after {
+    content: attr(data-error);
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: var(--doguify-error);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    margin-top: 5px;
+    z-index: 1000;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.doguify-group {
+    position: relative;
+}
+
+/* Mejoras para campos de edad */
+.doguify-edad-inputs .doguify-input-small.error {
+    border-color: var(--doguify-error);
+    box-shadow: 0 0 0 2px rgba(231, 76, 60, 0.2);
+}
+
+/* Indicador visual para fechas válidas */
+.doguify-edad-inputs.valid {
+    position: relative;
+}
+
+.doguify-edad-inputs.valid::after {
+    content: '✓';
+    position: absolute;
+    right: -25px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--doguify-success);
+    font-weight: bold;
+    font-size: 18px;
+}
+
+/* Responsive para móviles */
+@media (max-width: 480px) {
+    .doguify-fecha-info {
+        font-size: 11px;
+    }
+    
+    .doguify-edad-inputs.valid::after {
+        right: -20px;
+        font-size: 16px;
+    }
+}

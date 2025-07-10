@@ -1,0 +1,374 @@
+/* Archivo: assets/doguify-waiting-new.css */
+/* Estilos adicionales para evitar conflictos con temas de WordPress */
+
+/* Reset específico para la página de espera */
+.doguify-waiting-page-new {
+    all: initial;
+    font-family: 'Rubik', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: #4690E8;
+    min-height: 100vh;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    width: 100%;
+}
+
+/* Asegurar que el header y footer se muestren correctamente */
+body.doguify-waiting-body {
+    margin: 0;
+    padding: 0;
+}
+
+/* Estilos específicos para el tema Astra - solo en la página de espera */
+body.doguify-waiting-body .ast-container {
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 0 !important;
+}
+
+.doguify-waiting-body .site-header,
+.doguify-waiting-body .site-footer {
+    position: relative;
+    z-index: 10;
+}
+
+/* Prevenir que el tema interfiera con nuestros estilos */
+.doguify-waiting-page-new * {
+    box-sizing: border-box;
+}
+
+.doguify-waiting-page-new h1,
+.doguify-waiting-page-new h2,
+.doguify-waiting-page-new h3,
+.doguify-waiting-page-new p {
+    margin: 0;
+    padding: 0;
+    font-family: inherit;
+    color: inherit;
+    line-height: inherit;
+}
+
+.doguify-waiting-page-new img {
+    max-width: 100%;
+    height: auto;
+    border: none;
+    box-shadow: none;
+}
+
+/* Ocultar el contenedor de estado */
+.doguify-status-container {
+    display: none;
+}
+
+/* Título principal actualizado */
+.doguify-main-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    line-height: 1.1;
+    margin-bottom: 40px !important;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    color: white !important;
+}
+
+/* Contenedor principal con padding responsive */
+.doguify-waiting-content {
+    position: relative;
+    width: 100%;
+    max-width: 1200px;
+    padding: 80px 20px 20px 20px; /* 80px top para PC */
+    text-align: center;
+    z-index: 2;
+}
+
+/* Nuevas olas con efecto mejorado */
+.doguify-waves {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    line-height: 0;
+    z-index: 1;
+}
+
+.doguify-wave {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 150px;
+}
+
+.doguify-wave path {
+    fill: #e6f0fb; /* azul claro */
+}
+
+/* Contenido después de las olas */
+.doguify-wave-content {
+    background-color: #e6f0fb;
+    height: 200px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: 0;
+}
+
+/* Estilos específicos para diferentes tamaños de pantalla */
+@media (min-width: 1400px) {
+    .doguify-left-pets {
+        max-width: 350px;
+    }
+    
+    .doguify-right-pets {
+        max-width: 400px;
+    }
+    
+    .doguify-main-title {
+        font-size: 4rem;
+    }
+}
+
+@media (max-width: 1200px) and (min-width: 769px) {
+    .doguify-left-pets {
+        max-width: 200px;
+    }
+    
+    .doguify-right-pets {
+        max-width: 250px;
+    }
+}
+
+/* Ajustes para tablets en orientación vertical */
+@media (max-width: 768px) and (min-width: 481px) {
+    .doguify-waiting-content {
+        padding: 40px 30px 20px 30px;
+    }
+    
+    .doguify-main-title {
+        font-size: 2.8rem;
+    }
+    
+    .doguify-center-content {
+        max-width: 500px;
+    }
+}
+
+/* Ajustes para móviles */
+@media (max-width: 480px) {
+    .doguify-waiting-content {
+        padding: 20px 15px 15px 15px; /* 20px top para móvil */
+    }
+    
+    .doguify-main-title {
+        font-size: 2rem;
+    }
+    
+    .doguify-wave {
+        height: 100px;
+    }
+    
+    .doguify-wave-content {
+        height: 150px;
+    }
+}
+
+/* Mejoras de accesibilidad */
+.doguify-waiting-page-new .doguify-progress-bar-new {
+    role: progressbar;
+    aria-label: "Progreso de la comparativa";
+}
+
+.doguify-waiting-page-new .doguify-status-text {
+    role: status;
+    aria-live: polite;
+}
+
+/* Optimizaciones de rendimiento */
+.doguify-pets-image {
+    will-change: transform;
+    backface-visibility: hidden;
+}
+
+.doguify-progress-fill-new {
+    will-change: width;
+}
+
+/* Fallbacks para navegadores antiguos */
+.doguify-waiting-page-new {
+    background: #4690E8; /* Fallback si las variables CSS no funcionan */
+}
+
+@supports not (backdrop-filter: blur(10px)) {
+    .doguify-progress-bar-new {
+        background: rgba(255, 255, 255, 0.4);
+    }
+}
+
+/* Estilos para modo de alto contraste */
+@media (prefers-contrast: high) {
+    .doguify-progress-bar-new {
+        background: rgba(0, 0, 0, 0.3);
+        border: 1px solid white;
+    }
+    
+    .doguify-progress-fill-new {
+        background: white;
+        border: 1px solid #000;
+    }
+}
+
+/* Respeto por las preferencias de movimiento reducido */
+@media (prefers-reduced-motion: reduce) {
+    .doguify-waiting-content > *,
+    .doguify-left-pets,
+    .doguify-right-pets,
+    .doguify-progress-fill-new::after {
+        animation: none;
+    }
+    
+    .doguify-progress-fill-new {
+        transition: width 0.1s linear;
+    }
+}
+
+/* Estilos para impresión (si alguien intenta imprimir) */
+@media print {
+    .doguify-waiting-page-new {
+        background: white;
+        color: black;
+    }
+    
+    .doguify-left-pets,
+    .doguify-right-pets {
+        display: none;
+    }
+}
+
+/* Estilos de carga para imágenes */
+.doguify-pets-image {
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.doguify-pets-image.loaded {
+    opacity: 1;
+}
+
+/* Indicador de carga para el logo */
+.doguify-logo {
+    transition: all 0.3s ease;
+}
+
+.doguify-logo.loading {
+    opacity: 0.5;
+    transform: scale(0.95);
+}
+
+/* Animación de las olas */
+@keyframes doguify-wave-animation {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-100%);
+    }
+}
+
+.doguify-wave-animated {
+    animation: doguify-wave-animation 20s linear infinite;
+}
+
+/* Estilos adicionales para mejor integración */
+.doguify-waiting-page-new .doguify-progress-bar-new {
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 25px;
+    height: 20px;
+    margin-bottom: 15px;
+    overflow: hidden;
+    position: relative;
+    backdrop-filter: blur(10px);
+}
+
+.doguify-waiting-page-new .doguify-progress-fill-new {
+    background: white;
+    height: 100%;
+    border-radius: 25px;
+    transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    box-shadow: 0 2px 8px rgba(255, 255, 255, 0.3);
+}
+
+.doguify-waiting-page-new .doguify-progress-fill-new::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+    animation: doguify-shimmer 2s infinite;
+}
+
+@keyframes doguify-shimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+.doguify-waiting-page-new .doguify-progress-percentage {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: white;
+}
+
+/* Asegurar que el contenido esté por encima de las olas */
+.doguify-center-content {
+    position: relative;
+    z-index: 3;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* Mejorar la visibilidad del contenido */
+.doguify-logo-container,
+.doguify-top-message,
+.doguify-main-title,
+.doguify-center-content {
+    position: relative;
+    z-index: 4;
+}
+
+/* Efectos de animación mejorados */
+@keyframes doguify-fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.doguify-waiting-content > * {
+    animation: doguify-fadeInUp 0.6s ease-out forwards;
+}
+
+.doguify-logo-container {
+    animation-delay: 0.1s;
+}
+
+.doguify-top-message {
+    animation-delay: 0.2s;
+}
+
+.doguify-main-title {
+    animation-delay: 0.3s;
+}
+
+.doguify-center-content {
+    animation-delay: 0.4s;
+}

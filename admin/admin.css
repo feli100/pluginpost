@@ -1,0 +1,635 @@
+/* Doguify Admin CSS */
+
+/* Variables */
+:root {
+    --doguify-primary: #667eea;
+    --doguify-secondary: #764ba2;
+    --doguify-success: #2ecc71;
+    --doguify-warning: #f39c12;
+    --doguify-danger: #e74c3c;
+    --doguify-info: #3498db;
+    --doguify-light: #f8f9fa;
+    --doguify-dark: #333333;
+    --doguify-border: #dee2e6;
+    --doguify-border-radius: 8px;
+    --doguify-box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    --doguify-transition: all 0.3s ease;
+}
+
+/* Layout principal */
+.doguify-admin {
+    margin-right: 20px;
+}
+
+.doguify-admin .wp-heading-inline {
+    color: var(--doguify-primary);
+    font-weight: 600;
+}
+
+/* Tarjetas de estadísticas */
+.doguify-stats-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin: 30px 0;
+}
+
+.doguify-stat-card {
+    background: white;
+    border: 1px solid var(--doguify-border);
+    border-radius: var(--doguify-border-radius);
+    padding: 25px;
+    text-align: center;
+    box-shadow: var(--doguify-box-shadow);
+    transition: var(--doguify-transition);
+    position: relative;
+    overflow: hidden;
+}
+
+.doguify-stat-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--doguify-primary), var(--doguify-secondary));
+}
+
+.doguify-stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+}
+
+.doguify-stat-number {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--doguify-primary);
+    margin-bottom: 10px;
+    line-height: 1;
+}
+
+.doguify-stat-label {
+    font-size: 0.9rem;
+    color: var(--doguify-dark);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Barra de herramientas */
+.doguify-toolbar {
+    background: white;
+    border: 1px solid var(--doguify-border);
+    border-radius: var(--doguify-border-radius);
+    padding: 20px;
+    margin: 20px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.doguify-filters form {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.doguify-filters select,
+.doguify-filters input[type="date"] {
+    padding: 8px 12px;
+    border: 1px solid var(--doguify-border);
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+/* Contenedor de tabla */
+.doguify-table-container {
+    background: white;
+    border: 1px solid var(--doguify-border);
+    border-radius: var(--doguify-border-radius);
+    overflow: hidden;
+    box-shadow: var(--doguify-box-shadow);
+}
+
+/* Tabla personalizada */
+.doguify-table {
+    margin: 0;
+    border: none;
+    font-size: 14px;
+}
+
+.doguify-table th {
+    background: var(--doguify-light);
+    border-bottom: 2px solid var(--doguify-border);
+    padding: 15px 12px;
+    font-weight: 600;
+    color: var(--doguify-dark);
+    text-transform: uppercase;
+    font-size: 12px;
+    letter-spacing: 0.5px;
+}
+
+.doguify-table td {
+    padding: 15px 12px;
+    border-bottom: 1px solid #f0f0f0;
+    vertical-align: middle;
+}
+
+.doguify-table tr:hover {
+    background: #f8f9fa;
+}
+
+/* Columnas específicas */
+.column-id {
+    width: 80px;
+    text-align: center;
+}
+
+.column-mascota {
+    min-width: 200px;
+}
+
+.column-propietario {
+    min-width: 200px;
+}
+
+.column-ubicacion {
+    width: 100px;
+    text-align: center;
+}
+
+.column-precio {
+    width: 120px;
+    text-align: center;
+}
+
+.column-estado {
+    width: 120px;
+    text-align: center;
+}
+
+.column-fecha {
+    width: 120px;
+    text-align: center;
+}
+
+.column-acciones {
+    width: 150px;
+    text-align: center;
+}
+
+/* Información de mascota */
+.doguify-mascota-info {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.doguify-mascota-nombre {
+    font-weight: 600;
+    color: var(--doguify-dark);
+    font-size: 14px;
+}
+
+.doguify-mascota-detalles {
+    font-size: 12px;
+    color: #666;
+}
+
+/* Precios */
+.doguify-precio {
+    color: var(--doguify-success);
+    font-size: 16px;
+    display: block;
+}
+
+.doguify-precio-mensual {
+    font-size: 11px;
+    color: #666;
+    margin-top: 2px;
+}
+
+.doguify-sin-precio {
+    color: #999;
+    font-style: italic;
+}
+
+/* Estados */
+.doguify-estado-badge {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.doguify-estado-pendiente {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.doguify-estado-completado {
+    background: #d4edda;
+    color: #155724;
+}
+
+/* Fechas */
+.doguify-fecha {
+    font-weight: 600;
+    color: var(--doguify-dark);
+}
+
+.doguify-hora {
+    font-size: 11px;
+    color: #666;
+}
+
+/* Acciones */
+.doguify-acciones {
+    display: flex;
+    gap: 5px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.doguify-acciones .button {
+    font-size: 11px;
+    padding: 4px 8px;
+    height: auto;
+    line-height: 1.2;
+}
+
+/* Sin datos */
+.doguify-no-data {
+    text-align: center;
+    padding: 60px 20px;
+    color: #666;
+}
+
+.doguify-no-data-icon {
+    font-size: 4rem;
+    margin-bottom: 20px;
+}
+
+.doguify-no-data h3 {
+    color: var(--doguify-dark);
+    margin-bottom: 10px;
+}
+
+/* Paginación */
+.doguify-pagination {
+    padding: 20px;
+    text-align: center;
+    border-top: 1px solid var(--doguify-border);
+    background: var(--doguify-light);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.doguify-pagination-info {
+    color: #666;
+    font-size: 14px;
+}
+
+/* Modal */
+.doguify-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 100000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.doguify-modal-content {
+    background: white;
+    border-radius: 12px;
+    max-width: 600px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+}
+
+.doguify-modal-header {
+    padding: 20px 25px;
+    border-bottom: 1px solid var(--doguify-border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--doguify-light);
+    border-radius: 12px 12px 0 0;
+}
+
+.doguify-modal-header h3 {
+    margin: 0;
+    color: var(--doguify-dark);
+    font-size: 18px;
+}
+
+.doguify-modal-close {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #666;
+    padding: 0;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: var(--doguify-transition);
+}
+
+.doguify-modal-close:hover {
+    background: var(--doguify-border);
+    color: var(--doguify-dark);
+}
+
+.doguify-modal-body {
+    padding: 25px;
+}
+
+/* Configuración */
+.doguify-config-section {
+    background: white;
+    border: 1px solid var(--doguify-border);
+    border-radius: var(--doguify-border-radius);
+    margin-bottom: 20px;
+    overflow: hidden;
+    box-shadow: var(--doguify-box-shadow);
+}
+
+.doguify-config-header {
+    background: var(--doguify-light);
+    padding: 20px 25px;
+    border-bottom: 1px solid var(--doguify-border);
+}
+
+.doguify-config-header h3 {
+    margin: 0;
+    color: var(--doguify-dark);
+    font-size: 16px;
+}
+
+.doguify-config-body {
+    padding: 25px;
+}
+
+.doguify-form-group {
+    margin-bottom: 20px;
+}
+
+.doguify-form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: var(--doguify-dark);
+}
+
+.doguify-form-group input[type="text"],
+.doguify-form-group input[type="email"],
+.doguify-form-group textarea {
+    width: 100%;
+    padding: 10px 15px;
+    border: 1px solid var(--doguify-border);
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.doguify-form-group textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+.doguify-checkbox-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.doguify-checkbox-group input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+}
+
+/* Estadísticas avanzadas */
+.doguify-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.doguify-chart-container {
+    background: white;
+    border: 1px solid var(--doguify-border);
+    border-radius: var(--doguify-border-radius);
+    padding: 25px;
+    box-shadow: var(--doguify-box-shadow);
+}
+
+.doguify-chart-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--doguify-dark);
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* Lista de elementos */
+.doguify-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.doguify-list-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.doguify-list-item:last-child {
+    border-bottom: none;
+}
+
+.doguify-list-label {
+    font-weight: 500;
+    color: var(--doguify-dark);
+}
+
+.doguify-list-value {
+    font-weight: 600;
+    color: var(--doguify-primary);
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+    .doguify-toolbar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .doguify-filters,
+    .doguify-actions {
+        justify-content: center;
+    }
+}
+
+@media (max-width: 768px) {
+    .doguify-admin {
+        margin-right: 0;
+    }
+    
+    .doguify-stats-cards {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 15px;
+    }
+    
+    .doguify-stat-card {
+        padding: 20px 15px;
+    }
+    
+    .doguify-stat-number {
+        font-size: 2rem;
+    }
+    
+    .doguify-table {
+        font-size: 12px;
+    }
+    
+    .doguify-table th,
+    .doguify-table td {
+        padding: 10px 8px;
+    }
+    
+    .doguify-acciones {
+        flex-direction: column;
+        gap: 3px;
+    }
+    
+    .doguify-acciones .button {
+        font-size: 10px;
+        padding: 3px 6px;
+    }
+    
+    .doguify-modal-content {
+        margin: 10px;
+        max-width: none;
+    }
+    
+    .doguify-modal-header,
+    .doguify-modal-body {
+        padding: 15px 20px;
+    }
+    
+    .doguify-pagination {
+        flex-direction: column;
+        gap: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .doguify-filters form {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .doguify-filters select,
+    .doguify-filters input[type="date"],
+    .doguify-filters .button {
+        width: 100%;
+    }
+    
+    .doguify-stats-cards {
+        grid-template-columns: 1fr;
+    }
+    
+    /* Ocultar algunas columnas en móvil */
+    .doguify-table .column-ubicacion,
+    .doguify-table .column-fecha {
+        display: none;
+    }
+}
+
+/* Animaciones */
+@keyframes doguify-fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.doguify-stats-cards,
+.doguify-toolbar,
+.doguify-table-container {
+    animation: doguify-fadeIn 0.5s ease-out;
+}
+
+/* Estados de fila */
+.doguify-estado-pendiente {
+    background-color: rgba(255, 243, 205, 0.3);
+}
+
+.doguify-estado-completado {
+    background-color: rgba(212, 237, 218, 0.3);
+}
+
+/* Efectos hover */
+.doguify-table tr.doguify-row:hover {
+    background: #f1f3f4 !important;
+    transition: background-color 0.2s ease;
+}
+
+/* Tooltips (opcional) */
+[data-tooltip] {
+    position: relative;
+    cursor: help;
+}
+
+[data-tooltip]:hover::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--doguify-dark);
+    color: white;
+    padding: 8px 12px;
+    border-radius: 4px;
+    font-size: 12px;
+    white-space: nowrap;
+    z-index: 1000;
+    margin-bottom: 5px;
+}
+
+[data-tooltip]:hover::before {
+    content: '';
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 5px solid transparent;
+    border-top-color: var(--doguify-dark);
+    z-index: 1000;
+}
