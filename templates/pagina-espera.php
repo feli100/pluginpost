@@ -1,6 +1,7 @@
 <?php
 /**
- * Template de la página de espera con progreso
+ * Template de la página de espera con progreso - Doguify
+ * Versión completamente rediseñada
  */
 
 // Prevenir acceso directo
@@ -18,161 +19,193 @@ if (empty($session_id)) {
 get_header(); // Mostrar header del tema
 ?>
 
-<div class="doguify-waiting-page-new">
-    <div class="doguify-waiting-content">
-        <!-- Logo Doguify -->
-        <div class="doguify-logo-container">
-            <img src="https://doguify.com/wp-content/uploads/2025/06/Logos_Doguify_blanco-1-_3_-1.webp" 
-                 alt="Doguify" class="doguify-logo">
-        </div>
-        
-        <!-- Mensaje superior -->
-        <p class="doguify-top-message">Por favor no cierres esta página</p>
-        
-        <!-- Título principal -->
-        <h1 class="doguify-main-title">
-            Estamos obteniendo<br>
-            tus resultados!
-        </h1>
-        
-        <!-- Imagen izquierda (perro y gato) -->
-        <div class="doguify-left-pets">
-            <img src="https://doguify.com/wp-content/uploads/2025/07/perro-gato-1-e1751989375681.png" 
-                 alt="Perro y gato" class="doguify-pets-image">
-        </div>
-        
-        <!-- Imagen derecha (perros) -->
-        <div class="doguify-right-pets">
-            <img src="https://doguify.com/wp-content/uploads/2025/07/perros-web-1-e1751989411921.png" 
-                 alt="Perros" class="doguify-pets-image">
-        </div>
-        
-        <!-- Contenido central -->
-        <div class="doguify-center-content">
-            <!-- Barra de progreso -->
-            <div class="doguify-progress-bar-container">
-                <div class="doguify-progress-bar-new">
-                    <div class="doguify-progress-fill-new" style="width: 0%"></div>
+<div class="doguify-waiting-page-wrapper">
+    <div class="doguify-waiting-container">
+        <div class="doguify-content-grid">
+            <!-- Imagen izquierda (perro y gato) -->
+            <div class="doguify-side-image doguify-left-image">
+                <img src="https://doguify.com/wp-content/uploads/2025/07/perro-gato-1-e1751989375681.png" 
+                     alt="Perro y gato" 
+                     loading="lazy">
+            </div>
+            
+            <!-- Contenido central -->
+            <div class="doguify-main-content">
+                <!-- Logo Doguify -->
+                <div class="doguify-logo">
+                    <img src="https://doguify.com/wp-content/uploads/2025/06/Logos_Doguify_blanco-scaled-e1750429316951.png" 
+                         alt="Doguify Logo">
                 </div>
-                <div class="doguify-progress-percentage">0%</div>
+                
+                <!-- Mensaje principal -->
+                <div class="doguify-message">
+                    <div class="doguify-small-text">Por favor no cierres esta página</div>
+                    <h1 class="doguify-main-title">Estamos obteniendo<br>tus resultados!</h1>
+                </div>
+                
+                <!-- Barra de progreso -->
+                <div class="doguify-progress-container">
+                    <div class="doguify-progress-bar" id="doguifyProgressBar"></div>
+                </div>
+                
+                <div class="doguify-progress-text" id="doguifyProgressText">0%</div>
+                
+                <div class="doguify-sub-text">
+                    trabajamos con los mejores proveedores<br>
+                    para que puedas comparar planes<br>
+                    y precios en un solo lugar
+                </div>
             </div>
             
-            <!-- Texto explicativo -->
-            <p class="doguify-explanation-text">
-                trabajamos con los mejores proveedores<br>
-                para que puedas comparar planes<br>
-                y precios en un solo lugar.
-            </p>
-            
-            <!-- Estado del progreso (oculto por CSS) -->
-            <div class="doguify-status-container">
-                <p class="doguify-status-text">Iniciando consulta...</p>
+            <!-- Imagen derecha (perros) -->
+            <div class="doguify-side-image doguify-right-image">
+                <img src="https://doguify.com/wp-content/uploads/2025/07/perros-web-1-e1751989411921.png" 
+                     alt="Perros" 
+                     loading="lazy">
             </div>
         </div>
     </div>
     
-    <!-- Nuevas olas decorativas con el diseño mejorado -->
-    <div class="doguify-waves">
-        <svg viewBox="0 0 1440 150" preserveAspectRatio="none" class="doguify-wave">
-            <path fill="#e6f0fb" d="M0,80 C180,130 360,30 540,80 C720,130 900,30 1080,80 C1260,130 1440,30 1440,30 L1440,150 L0,150 Z" />
-        </svg>
+    <!-- Efecto de olas decorativas -->
+    <div class="doguify-wave-container">
+        <div class="doguify-wave"></div>
+        <div class="doguify-wave"></div>
+        <div class="doguify-wave"></div>
     </div>
-    
-    <!-- Contenido después de las olas -->
-    <div class="doguify-wave-content"></div>
 </div>
 
 <style>
-.doguify-waiting-page-new {
-    background: #4690E8;
+/* ========================================
+   DOGUIFY WAITING PAGE - COMPLETE REDESIGN
+   ======================================== */
+
+.doguify-waiting-page-wrapper {
+    /* Fondo azul gradiente */
+    background: linear-gradient(135deg, #4A90E2 0%, #357ABD 50%, #2E6DA4 100%) !important;
     min-height: 100vh;
     position: relative;
-    overflow: hidden;
+    color: white;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    
+    /* Resetear márgenes del tema */
+    margin: 0 !important;
+    padding: 0 !important;
+    
+    /* Expandir a ancho completo */
+    width: 100vw;
+    margin-left: calc(-50vw + 50%) !important;
+    
+    /* Ocultar scroll horizontal */
+    overflow-x: hidden;
+}
+
+/* Resetear contenedores del tema WordPress */
+.doguify-waiting-page-wrapper .ast-container,
+.doguify-waiting-page-wrapper .container,
+.doguify-waiting-page-wrapper .site-main,
+.doguify-waiting-page-wrapper .entry-content {
+    max-width: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    width: 100% !important;
+}
+
+.doguify-waiting-container {
+    position: relative;
+    min-height: 80vh;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: white;
-    width: 100%;
-    font-family: 'Rubik', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-}
-
-.doguify-waiting-content {
-    position: relative;
-    width: 100%;
-    max-width: 1200px;
-    padding: 80px 20px 20px 20px;
-    text-align: center;
+    padding: 40px 20px 120px 20px;
     z-index: 2;
 }
 
-/* Logo */
-.doguify-logo-container {
-    margin-bottom: 20px;
+.doguify-content-grid {
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    align-items: center;
+    gap: 40px;
+    max-width: 1200px;
+    width: 100%;
+}
+
+.doguify-side-image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.doguify-side-image img {
+    max-width: 100%;
+    height: auto;
+    max-height: 400px;
+    object-fit: contain;
+}
+
+.doguify-main-content {
+    text-align: center;
+    padding: 20px;
 }
 
 .doguify-logo {
-    height: 60px;
-    width: auto;
-}
-
-/* Mensaje superior */
-.doguify-top-message {
-    font-size: 16px;
-    margin-bottom: 20px;
-    opacity: 0.9;
-    font-weight: 400;
-}
-
-/* Título principal */
-.doguify-main-title {
-    font-size: 2.5rem;
-    font-weight: 700;
-    line-height: 1.1;
-    margin-bottom: 40px !important;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    color: white !important;
-}
-
-/* Contenido central */
-.doguify-center-content {
-    position: relative;
-    z-index: 3;
-    max-width: 600px;
-    margin: 0 auto;
-}
-
-/* Barra de progreso */
-.doguify-progress-bar-container {
     margin-bottom: 30px;
 }
 
-.doguify-progress-bar-new {
-    background: rgba(255, 255, 255, 0.3);
-    border-radius: 25px;
-    height: 20px;
+.doguify-logo img {
+    max-width: 250px;
+    height: auto;
+}
+
+.doguify-message {
     margin-bottom: 15px;
-    overflow: hidden;
-    position: relative;
-    backdrop-filter: blur(10px);
 }
 
-.doguify-progress-fill-new {
+.doguify-small-text {
+    font-size: 16px;
+    margin-bottom: 8px;
+    opacity: 0.9;
+}
+
+.doguify-main-title {
+    font-size: 2.2rem;
+    font-weight: 600;
+    line-height: 1.2;
+    margin-bottom: 30px !important;
+    margin-top: 0 !important;
+    color: white !important;
+}
+
+.doguify-progress-container {
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto 20px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50px;
+    padding: 4px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.doguify-progress-bar {
+    height: 12px;
     background: white;
-    height: 100%;
-    border-radius: 25px;
-    transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius: 50px;
+    transition: width 3s ease-in-out;
     position: relative;
-    box-shadow: 0 2px 8px rgba(255, 255, 255, 0.3);
+    overflow: hidden;
+    width: 0%;
 }
 
-.doguify-progress-fill-new::after {
+.doguify-progress-bar::after {
     content: '';
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+    background: linear-gradient(90deg, 
+        transparent 0%, 
+        rgba(255,255,255,0.3) 50%, 
+        transparent 100%);
     animation: doguify-shimmer 2s infinite;
 }
 
@@ -181,293 +214,237 @@ get_header(); // Mostrar header del tema
     100% { transform: translateX(100%); }
 }
 
-.doguify-progress-percentage {
-    font-size: 1.5rem;
-    font-weight: 700;
-    margin-bottom: 20px;
-    color: white;
+.doguify-progress-text {
+    font-size: 2rem;
+    font-weight: bold;
+    margin: 15px 0;
+    color: white !important;
 }
 
-/* Texto explicativo */
-.doguify-explanation-text {
-    font-size: 18px;
-    line-height: 1.4;
-    margin-bottom: 30px;
-    opacity: 0.9;
-    font-weight: 400;
-}
-
-/* Estado oculto */
-.doguify-status-container {
-    display: none;
-}
-
-.doguify-status-text {
-    font-size: 16px;
-    font-weight: 500;
+.doguify-sub-text {
+    font-size: 14px;
     opacity: 0.8;
-}
-
-/* Imágenes de mascotas */
-.doguify-left-pets {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    z-index: 1;
-    max-width: 300px;
-}
-
-.doguify-right-pets {
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    z-index: 1;
     max-width: 350px;
+    margin: 0 auto;
+    line-height: 1.4;
+    color: white !important;
 }
 
-.doguify-pets-image {
-    width: 100%;
-    height: auto;
-    display: block;
-}
-
-/* Nuevas olas */
-.doguify-waves {
+/* Efecto de olas en la parte inferior */
+.doguify-wave-container {
     position: absolute;
     bottom: 0;
     left: 0;
     width: 100%;
-    overflow: hidden;
-    line-height: 0;
+    height: 80px;
     z-index: 1;
 }
 
 .doguify-wave {
-    position: relative;
-    display: block;
-    width: 100%;
-    height: 150px;
-}
-
-.doguify-wave path {
-    fill: #e6f0fb;
-}
-
-.doguify-wave-content {
-    background-color: #e6f0fb;
-    height: 200px;
     position: absolute;
     bottom: 0;
     left: 0;
     width: 100%;
-    z-index: 0;
+    height: 60px;
+    background: #ECF3FD;
+    clip-path: polygon(0 30%, 20% 40%, 40% 35%, 60% 45%, 80% 30%, 100% 40%, 100% 100%, 0% 100%);
 }
 
-/* Animaciones */
-@keyframes doguify-fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+.doguify-wave:nth-child(2) {
+    background: rgba(236, 243, 253, 0.8);
+    clip-path: polygon(0 45%, 25% 55%, 45% 50%, 65% 60%, 85% 45%, 100% 55%, 100% 100%, 0% 100%);
+    height: 45px;
 }
 
-.doguify-waiting-content > * {
-    animation: doguify-fadeInUp 0.6s ease-out forwards;
+.doguify-wave:nth-child(3) {
+    background: rgba(236, 243, 253, 0.6);
+    clip-path: polygon(0 60%, 30% 70%, 50% 65%, 70% 75%, 90% 60%, 100% 70%, 100% 100%, 0% 100%);
+    height: 30px;
 }
 
-.doguify-logo-container {
-    animation-delay: 0.1s;
+/* Resetear colores del texto para evitar conflictos con el tema */
+.doguify-waiting-page-wrapper h1,
+.doguify-waiting-page-wrapper p,
+.doguify-waiting-page-wrapper div {
+    color: white !important;
 }
 
-.doguify-top-message {
-    animation-delay: 0.2s;
+.doguify-waiting-page-wrapper * {
+    box-sizing: border-box;
 }
 
-.doguify-main-title {
-    animation-delay: 0.3s;
+/* Ocultar elementos del tema que interfieren */
+.doguify-waiting-page-wrapper .ast-breadcrumbs,
+.doguify-waiting-page-wrapper .entry-header,
+.doguify-waiting-page-wrapper .ast-single-post,
+.doguify-waiting-page-wrapper .post-navigation {
+    display: none !important;
 }
 
-.doguify-center-content {
-    animation-delay: 0.4s;
-}
-
-/* Responsive */
+/* Responsive Design */
 @media (max-width: 1024px) {
-    .doguify-left-pets {
-        max-width: 250px;
-    }
-    
-    .doguify-right-pets {
-        max-width: 280px;
+    .doguify-content-grid {
+        grid-template-columns: 1fr 3fr 1fr;
+        gap: 20px;
     }
     
     .doguify-main-title {
-        font-size: 3rem;
+        font-size: 2rem !important;
+    }
+    
+    .doguify-side-image img {
+        max-height: 350px;
     }
 }
 
 @media (max-width: 768px) {
-    .doguify-waiting-content {
-        padding: 40px 30px 20px 30px;
+    .doguify-content-grid {
+        grid-template-columns: 1fr;
+        gap: 30px;
     }
     
-    .doguify-main-title {
-        font-size: 2.8rem;
-        margin-bottom: 30px;
-    }
-    
-    .doguify-explanation-text {
-        font-size: 16px;
-    }
-    
-    .doguify-top-message {
-        font-size: 14px;
-    }
-    
-    /* Ocultar imágenes de mascotas en móviles */
-    .doguify-left-pets,
-    .doguify-right-pets {
+    .doguify-side-image {
         display: none;
     }
     
-    .doguify-logo {
-        height: 50px;
+    .doguify-main-content {
+        padding: 10px;
+    }
+    
+    .doguify-main-title {
+        font-size: 1.8rem !important;
+    }
+    
+    .doguify-progress-text {
+        font-size: 1.5rem;
+    }
+    
+    .doguify-waiting-container {
+        padding: 20px 20px 100px 20px;
+        min-height: 70vh;
     }
 }
 
 @media (max-width: 480px) {
-    .doguify-waiting-content {
-        padding: 20px 15px 15px 15px;
-    }
-    
     .doguify-main-title {
-        font-size: 2rem;
+        font-size: 1.5rem !important;
     }
     
-    .doguify-explanation-text {
-        font-size: 14px;
-        line-height: 1.5;
+    .doguify-waiting-container {
+        padding: 10px 10px 80px 10px;
     }
     
-    .doguify-progress-bar-new {
-        height: 16px;
-    }
-    
-    .doguify-progress-percentage {
-        font-size: 1.2rem;
-    }
-    
-    .doguify-wave {
-        height: 100px;
-    }
-    
-    .doguify-wave-content {
-        height: 150px;
+    .doguify-logo img {
+        max-width: 200px;
     }
 }
 
-/* Ajustes para evitar conflictos con el tema */
-.doguify-waiting-page-new * {
-    box-sizing: border-box;
-}
-
-.doguify-waiting-page-new p {
-    margin: 0;
-}
-
-.doguify-waiting-page-new h1 {
-    margin: 0;
-}
-
-/* Asegurar que las imágenes no se desborden */
-.doguify-left-pets,
-.doguify-right-pets {
-    pointer-events: none;
-}
-
-/* Efectos adicionales para las imágenes */
-.doguify-left-pets {
-    animation: doguify-float-left 6s ease-in-out infinite;
-}
-
-.doguify-right-pets {
-    animation: doguify-float-right 6s ease-in-out infinite reverse;
-}
-
-@keyframes doguify-float-left {
-    0%, 100% { transform: translateY(0px); }
-    50% { transform: translateY(-10px); }
-}
-
-@keyframes doguify-float-right {
-    0%, 100% { transform: translateY(0px); }
-    50% { transform: translateY(-15px); }
-}
-
-/* Estilos específicos para el tema Astra */
-body.doguify-waiting-body .ast-container {
-    width: 100% !important;
-    max-width: 100% !important;
-    padding: 0 !important;
+/* Clase específica para el body */
+body.doguify-waiting-body {
+    background: linear-gradient(135deg, #4A90E2 0%, #357ABD 50%, #2E6DA4 100%) !important;
 }
 </style>
 
 <script>
-// Pasar el session_id al JavaScript
-window.doguify_session_id = '<?php echo esc_js($session_id); ?>';
-
-// Función para actualizar el progreso
-window.updateDoguifyProgress = function(progress, statusText) {
-    const progressBar = document.querySelector('.doguify-progress-fill-new');
-    const progressText = document.querySelector('.doguify-progress-percentage');
-    const statusElement = document.querySelector('.doguify-status-text');
+(function() {
+    'use strict';
     
-    if (progressBar && progressText) {
-        const roundedProgress = Math.min(Math.round(progress), 100);
-        progressBar.style.width = roundedProgress + '%';
-        progressText.textContent = roundedProgress + '%';
-        
-        if (statusText && statusElement) {
-            statusElement.textContent = statusText;
+    // Variables globales
+    let doguifyProgress = 0;
+    const doguifySessionId = '<?php echo esc_js($session_id); ?>';
+    
+    // Textos dinámicos durante la carga
+    const loadingTexts = [
+        "trabajamos con los mejores proveedores<br>para que puedas comparar planes<br>y precios en un solo lugar",
+        "analizando las mejores opciones<br>para tu mascota",
+        "comparando precios y coberturas<br>en tiempo real",
+        "finalizando tu comparativa<br>personalizada"
+    ];
+    
+    let textIndex = 0;
+    
+    // Función principal para actualizar el progreso
+    function updateDoguifyProgress() {
+        if (doguifyProgress <= 100) {
+            const roundedProgress = Math.round(doguifyProgress);
+            const progressBar = document.getElementById('doguifyProgressBar');
+            const progressText = document.getElementById('doguifyProgressText');
+            
+            if (progressBar && progressText) {
+                progressBar.style.width = roundedProgress + '%';
+                progressText.textContent = roundedProgress + '%';
+            }
+            
+            // Velocidad de progreso variable (más realista)
+            if (doguifyProgress < 30) {
+                doguifyProgress += Math.random() * 3 + 1;
+            } else if (doguifyProgress < 70) {
+                doguifyProgress += Math.random() * 2 + 0.5;
+            } else if (doguifyProgress < 90) {
+                doguifyProgress += Math.random() * 1 + 0.2;
+            } else if (doguifyProgress < 100) {
+                doguifyProgress += Math.random() * 0.5 + 0.1;
+            }
+            
+            setTimeout(updateDoguifyProgress, Math.random() * 300 + 200);
+        } else {
+            // Completado al 100%
+            const progressBar = document.getElementById('doguifyProgressBar');
+            const progressText = document.getElementById('doguifyProgressText');
+            
+            if (progressBar && progressText) {
+                progressBar.style.width = '100%';
+                progressText.textContent = '100%';
+            }
+            
+            // Redirigir a la página de resultados
+            setTimeout(() => {
+                if (doguifySessionId) {
+                    window.location.href = '<?php echo home_url('/doguify-resultado/'); ?>?session=' + doguifySessionId;
+                }
+            }, 1000);
         }
     }
-};
-
-// Prevenir navegación hacia atrás
-history.pushState(null, null, location.href);
-window.onpopstate = function () {
-    history.go(1);
-};
-
-// Mostrar mensaje si el usuario intenta cerrar la pestaña
-window.addEventListener('beforeunload', function(e) {
-    const message = 'Tu comparativa se está procesando. ¿Estás seguro de que quieres salir?';
-    e.returnValue = message;
-    return message;
-});
-
-// Simular progreso inicial más suave
-document.addEventListener('DOMContentLoaded', function() {
-    let progress = 0;
-    const progressBar = document.querySelector('.doguify-progress-fill-new');
-    const progressText = document.querySelector('.doguify-progress-percentage');
     
-    // Animación inicial del logo
-    const logo = document.querySelector('.doguify-logo');
-    if (logo) {
-        logo.style.opacity = '0';
-        logo.style.transform = 'scale(0.8)';
-        setTimeout(() => {
-            logo.style.transition = 'all 0.6s ease-out';
-            logo.style.opacity = '1';
-            logo.style.transform = 'scale(1)';
-        }, 200);
+    // Cambiar textos dinámicamente
+    function changeLoadingText() {
+        if (doguifyProgress > 20 && doguifyProgress < 100) {
+            const subTextElement = document.querySelector('.doguify-sub-text');
+            if (subTextElement) {
+                textIndex = (textIndex + 1) % loadingTexts.length;
+                subTextElement.innerHTML = loadingTexts[textIndex];
+            }
+        }
     }
-});
+    
+    // Función expuesta globalmente para uso del plugin
+    window.updateDoguifyProgress = function(progress, statusText) {
+        const progressBar = document.getElementById('doguifyProgressBar');
+        const progressText = document.getElementById('doguifyProgressText');
+        
+        if (progressBar && progressText) {
+            const roundedProgress = Math.min(Math.round(progress), 100);
+            progressBar.style.width = roundedProgress + '%';
+            progressText.textContent = roundedProgress + '%';
+            doguifyProgress = progress;
+        }
+    };
+    
+    // Inicializar cuando se carga el DOM
+    document.addEventListener('DOMContentLoaded', function() {
+        // Agregar clase específica al body
+        document.body.classList.add('doguify-waiting-body');
+        
+        // Iniciar la simulación de progreso
+        setTimeout(updateDoguifyProgress, 500);
+        
+        // Cambiar textos cada 4 segundos
+        setInterval(changeLoadingText, 4000);
+        
+        console.log('Doguify Waiting Page: Iniciada para sesión ' + doguifySessionId);
+    });
+    
+})();
 </script>
 
 <?php get_footer(); // Mostrar footer del tema ?>
