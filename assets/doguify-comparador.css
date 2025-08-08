@@ -944,4 +944,181 @@ body.doguify-waiting-body .ast-container {
 .doguify-rounded-md { border-radius: 8px; }
 .doguify-rounded-lg { border-radius: 12px; }
 .doguify-rounded-xl { border-radius: 16px; }
+
 .doguify-rounded-full { border-radius: 50%; }
+
+/* ========================================
+   DOGUIFY WAITING PAGE - ADDITIONAL STYLES
+   Agregar al final de doguify-comparador.css
+   ======================================== */
+
+/* Estilos específicos para la página de espera */
+.doguify-waiting-page-wrapper {
+    /* Asegurar que funcione con diferentes temas */
+    position: relative !important;
+}
+
+/* Compatibilidad con tema Astra */
+.ast-separate-container .doguify-waiting-page-wrapper .ast-article-post {
+    background: transparent !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* Compatibilidad con Twenty Twenty themes */
+.doguify-waiting-page-wrapper .entry-content > *:not(.doguify-waiting-container) {
+    display: none;
+}
+
+/* Compatibilidad con Elementor */
+.elementor-default .doguify-waiting-page-wrapper {
+    width: 100vw !important;
+    margin-left: calc(-50vw + 50%) !important;
+}
+
+/* Ocultar elementos de navegación innecesarios */
+.doguify-waiting-page-wrapper .post-navigation,
+.doguify-waiting-page-wrapper .nav-links,
+.doguify-waiting-page-wrapper .page-links,
+.doguify-waiting-page-wrapper .ast-single-related-posts-container,
+.doguify-waiting-page-wrapper .comments-area {
+    display: none !important;
+}
+
+/* Asegurar que las imágenes se carguen correctamente */
+.doguify-side-image img {
+    filter: brightness(1.1) contrast(1.05);
+    transition: transform 0.3s ease;
+}
+
+.doguify-side-image img:hover {
+    transform: scale(1.02);
+}
+
+/* Preloader para las imágenes */
+.doguify-side-image {
+    position: relative;
+}
+
+.doguify-side-image::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 40px;
+    height: 40px;
+    border: 3px solid rgba(255,255,255,0.3);
+    border-top: 3px solid white;
+    border-radius: 50%;
+    animation: doguify-spin 1s linear infinite;
+    opacity: 1;
+    transition: opacity 0.3s ease;
+}
+
+.doguify-side-image img {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.doguify-side-image img.loaded {
+    opacity: 1;
+}
+
+.doguify-side-image img.loaded ~ ::before {
+    opacity: 0;
+}
+
+@keyframes doguify-spin {
+    0% { transform: translate(-50%, -50%) rotate(0deg); }
+    100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* Animaciones de entrada suaves */
+.doguify-main-content > * {
+    animation: doguify-fadeInUp 0.8s ease-out forwards;
+    opacity: 0;
+}
+
+.doguify-logo {
+    animation-delay: 0.1s;
+}
+
+.doguify-message {
+    animation-delay: 0.3s;
+}
+
+.doguify-progress-container {
+    animation-delay: 0.5s;
+}
+
+.doguify-progress-text {
+    animation-delay: 0.6s;
+}
+
+.doguify-sub-text {
+    animation-delay: 0.7s;
+}
+
+@keyframes doguify-fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Mejoras para accessibility */
+.doguify-progress-bar {
+    role: progressbar;
+    aria-label: "Progreso de búsqueda";
+}
+
+.doguify-main-title {
+    role: heading;
+    aria-level: 1;
+}
+
+/* Dark mode compatibility (por si el tema lo soporta) */
+@media (prefers-color-scheme: dark) {
+    .doguify-waiting-page-wrapper {
+        background: linear-gradient(135deg, #4A90E2 0%, #357ABD 50%, #2E6DA4 100%) !important;
+    }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    .doguify-progress-bar {
+        border: 2px solid white;
+    }
+    
+    .doguify-wave {
+        border-top: 1px solid #333;
+    }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+    .doguify-progress-bar::after {
+        animation: none;
+    }
+    
+    .doguify-main-content > * {
+        animation: none;
+        opacity: 1;
+    }
+    
+    .doguify-side-image img {
+        transition: none;
+    }
+}
+
+/* Print styles (ocultar en impresión) */
+@media print {
+    .doguify-waiting-page-wrapper {
+        display: none !important;
+    }
+}
