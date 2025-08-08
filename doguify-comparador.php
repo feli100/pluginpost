@@ -1,4 +1,40 @@
-<?php
+// Cargar configuración
+        if (file_exists(DOGUIFY_PLUGIN_PATH . 'includes/config.php')) {
+            require_once DOGUIFY_PLUGIN_PATH . 'includes/config.php';
+        }
+        
+        // Cargar otros archivos del plugin
+        if (file_exists(DOGUIFY_PLUGIN_PATH . 'includes/utilities.php')) {
+            require_once DOGUIFY_PLUGIN_PATH . 'includes/utilities.php';
+        }
+        if (file_exists(DOGUIFY_PLUGIN_PATH . 'includes/logger.php')) {
+            require_once DOGUIFY_PLUGIN_PATH . 'includes/logger.php';
+        }
+        if (file_exists(DOGUIFY_PLUGIN_PATH . 'includes/ajax-handlers.php')) {
+            require_once DOGUIFY_PLUGIN_PATH . 'includes/ajax-handlers.php';
+        }
+        if (file_exists(DOGUIFY_PLUGIN_PATH . 'includes/cron-jobs.php')) {
+            require_once DOGUIFY_PLUGIN_PATH . 'includes/cron-jobs.php';
+        }
+        if (file_exists(DOGUIFY_PLUGIN_PATH . 'includes/webhooks.php')) {
+            require_once DOGUIFY_PLUGIN_PATH . 'includes/webhooks.php';
+        }
+        if (file_exists(DOGUIFY_PLUGIN_PATH . 'includes/widgets.php')) {
+            require_once DOGUIFY_PLUGIN_PATH . 'includes/widgets.php';
+        }
+        
+        // Cargar panel admin si estamos en admin
+        if (is_admin() && file_exists(DOGUIFY_PLUGIN_PATH . 'admin/admin-panel.php')) {
+            require_once DOGUIFY_PLUGIN_PATH . 'admin/admin-panel.php';
+        }
+    }
+    
+    public function init() {
+        // Verificar que las tablas existan
+        $this->ensure_database_ready();
+        
+        // Añadir reglas de rewrite para páginas personalizadas
+        add_rewrite_rule('^doguify-espera/?<?php
 /**
  * Plugin Name: Doguify Comparador de Seguros
  * Description: Plugin completo para comparar seguros de mascotas con integración a Petplan
@@ -38,53 +74,68 @@ class DoguifyComparador {
         // Shortcodes
         add_shortcode('doguify_formulario', array($this, 'mostrar_formulario'));
         
-        // Hooks de limpieza
-        register_activation_hook(__FILE__, array($this, 'activate_plugin'));
-        register_deactivation_hook(__FILE__, array($this, 'deactivate_plugin'));
+        // Cron jobs
+        add_action('doguify_daily_cleanup', array($this, 'cleanup_old_sessions'));
+    }
+    
+    public function load_dependencies() {
+        // Cargar instalador PRIMERO
+        if (file_exists(DOGUIFY_PLUGIN_PATH . 'includes/installer.php')) {
+            require_once DOGUIFY_PLUGIN_PATH . 'includes/installer.php';
+        }
+        
+        //, 'index.php?doguify_page=espera', 'top');
+        add_rewrite_rule('^doguify-resultado/?<?php
+/**
+ * Plugin Name: Doguify Comparador de Seguros
+ * Description: Plugin completo para comparar seguros de mascotas con integración a Petplan
+ * Version: 1.0.0
+ * Author: Doguify
+ * Text Domain: doguify-comparador
+ */
+
+// Prevenir acceso directo
+if (!defined('ABSPATH')) {
+    exit;
+}
+
+// Definir constantes del plugin
+define('DOGUIFY_PLUGIN_URL', plugin_dir_url(__FILE__));
+define('DOGUIFY_PLUGIN_PATH', plugin_dir_path(__FILE__));
+define('DOGUIFY_PLUGIN_VERSION', '1.0.0');
+
+class DoguifyComparador {
+    
+    public function __construct() {
+        // Cargar dependencias ANTES de otros hooks
+        add_action('plugins_loaded', array($this, 'load_dependencies'), 1);
+        
+        add_action('init', array($this, 'init'));
+        add_action('wp_enqueue_scripts', array($this, 'enqueue_scripts'));
+        add_action('wp_ajax_doguify_procesar_comparativa', array($this, 'procesar_comparativa'));
+        add_action('wp_ajax_nopriv_doguify_procesar_comparativa', array($this, 'procesar_comparativa'));
+        add_action('wp_ajax_doguify_consultar_petplan', array($this, 'consultar_petplan'));
+        add_action('wp_ajax_nopriv_doguify_consultar_petplan', array($this, 'consultar_petplan'));
+        add_action('wp_ajax_doguify_check_status', array($this, 'check_comparison_status'));
+        add_action('wp_ajax_nopriv_doguify_check_status', array($this, 'check_comparison_status'));
+        add_action('template_redirect', array($this, 'handle_custom_pages'));
+        add_action('send_headers', array($this, 'add_security_headers'));
+        add_action('wp_head', array($this, 'add_waiting_page_head'));
+        
+        // Shortcodes
+        add_shortcode('doguify_formulario', array($this, 'mostrar_formulario'));
         
         // Cron jobs
         add_action('doguify_daily_cleanup', array($this, 'cleanup_old_sessions'));
     }
     
     public function load_dependencies() {
-        // Cargar configuración PRIMERO
-        if (file_exists(DOGUIFY_PLUGIN_PATH . 'includes/config.php')) {
-            require_once DOGUIFY_PLUGIN_PATH . 'includes/config.php';
-        }
-        
-        // Cargar otros archivos del plugin
-        if (file_exists(DOGUIFY_PLUGIN_PATH . 'includes/utilities.php')) {
-            require_once DOGUIFY_PLUGIN_PATH . 'includes/utilities.php';
-        }
-        if (file_exists(DOGUIFY_PLUGIN_PATH . 'includes/logger.php')) {
-            require_once DOGUIFY_PLUGIN_PATH . 'includes/logger.php';
-        }
+        // Cargar instalador PRIMERO
         if (file_exists(DOGUIFY_PLUGIN_PATH . 'includes/installer.php')) {
             require_once DOGUIFY_PLUGIN_PATH . 'includes/installer.php';
         }
-        if (file_exists(DOGUIFY_PLUGIN_PATH . 'includes/ajax-handlers.php')) {
-            require_once DOGUIFY_PLUGIN_PATH . 'includes/ajax-handlers.php';
-        }
-        if (file_exists(DOGUIFY_PLUGIN_PATH . 'includes/cron-jobs.php')) {
-            require_once DOGUIFY_PLUGIN_PATH . 'includes/cron-jobs.php';
-        }
-        if (file_exists(DOGUIFY_PLUGIN_PATH . 'includes/webhooks.php')) {
-            require_once DOGUIFY_PLUGIN_PATH . 'includes/webhooks.php';
-        }
-        if (file_exists(DOGUIFY_PLUGIN_PATH . 'includes/widgets.php')) {
-            require_once DOGUIFY_PLUGIN_PATH . 'includes/widgets.php';
-        }
         
-        // Cargar panel admin si estamos en admin
-        if (is_admin() && file_exists(DOGUIFY_PLUGIN_PATH . 'admin/admin-panel.php')) {
-            require_once DOGUIFY_PLUGIN_PATH . 'admin/admin-panel.php';
-        }
-    }
-    
-    public function init() {
-        // Añadir reglas de rewrite para páginas personalizadas
-        add_rewrite_rule('^doguify-espera/?$', 'index.php?doguify_page=espera', 'top');
-        add_rewrite_rule('^doguify-resultado/?$', 'index.php?doguify_page=resultado', 'top');
+        //, 'index.php?doguify_page=resultado', 'top');
         
         // Añadir query vars
         add_filter('query_vars', function($vars) {
@@ -102,6 +153,25 @@ class DoguifyComparador {
         // Programar limpieza diaria si no existe
         if (!wp_next_scheduled('doguify_daily_cleanup')) {
             wp_schedule_event(time(), 'daily', 'doguify_daily_cleanup');
+        }
+    }
+    
+    /**
+     * Asegurar que la base de datos esté lista
+     */
+    private function ensure_database_ready() {
+        if (function_exists('doguify_verify_tables')) {
+            $verification = doguify_verify_tables();
+            
+            if (!$verification['all_present']) {
+                // Crear tablas faltantes
+                if (function_exists('doguify_create_tables')) {
+                    doguify_create_tables();
+                }
+            }
+        } else if (class_exists('DoguifyInstaller')) {
+            // Verificar usando la clase del instalador
+            DoguifyInstaller::verify_installation();
         }
     }
     
@@ -192,14 +262,16 @@ class DoguifyComparador {
     public function procesar_comparativa() {
         // Verificar nonce
         if (!wp_verify_nonce($_POST['nonce'], 'doguify_nonce')) {
-            wp_die(json_encode(array('success' => false, 'message' => 'Error de seguridad')));
+            wp_send_json_error('Error de seguridad');
+            return;
         }
         
         // Rate limiting básico
         $ip = $this->obtener_ip_real();
         $attempts = get_transient('doguify_attempts_' . md5($ip));
         if ($attempts && $attempts >= 5) {
-            wp_die(json_encode(array('success' => false, 'message' => 'Demasiados intentos. Espera unos minutos.')));
+            wp_send_json_error('Demasiados intentos. Espera unos minutos.');
+            return;
         }
         
         // Validar datos
@@ -207,8 +279,9 @@ class DoguifyComparador {
         
         if (!$datos['valido']) {
             // Incrementar intentos fallidos
-            set_transient('doguify_attempts_' . md5($ip), ($attempts ?? 0) + 1, 300); // 5 minutos
-            wp_die(json_encode(array('success' => false, 'message' => $datos['errores'])));
+            set_transient('doguify_attempts_' . md5($ip), ($attempts ?? 0) + 1, 300);
+            wp_send_json_error($datos['errores']);
+            return;
         }
         
         // Generar session ID único
@@ -243,7 +316,8 @@ class DoguifyComparador {
             if (function_exists('doguify_log')) {
                 doguify_log('error', 'Error al guardar comparativa: ' . $wpdb->last_error);
             }
-            wp_die(json_encode(array('success' => false, 'message' => 'Error al guardar datos')));
+            wp_send_json_error('Error al guardar datos. Por favor, inténtalo de nuevo.');
+            return;
         }
         
         // Log de éxito si la función existe
@@ -257,16 +331,16 @@ class DoguifyComparador {
         // Trigger webhook si está configurado
         $this->trigger_webhook($session_id, $datos);
         
-        wp_die(json_encode(array(
-            'success' => true,
+        wp_send_json_success(array(
             'session_id' => $session_id,
             'redirect_url' => home_url('/doguify-espera/?session_id=' . $session_id)
-        )));
+        ));
     }
     
     public function consultar_petplan() {
         if (!wp_verify_nonce($_POST['nonce'], 'doguify_nonce')) {
-            wp_die(json_encode(array('success' => false, 'message' => 'Error de seguridad')));
+            wp_send_json_error('Error de seguridad');
+            return;
         }
         
         $session_id = sanitize_text_field($_POST['session_id']);
@@ -281,7 +355,8 @@ class DoguifyComparador {
         ));
         
         if (!$datos) {
-            wp_die(json_encode(array('success' => false, 'message' => 'Sesión no encontrada o ya procesada')));
+            wp_send_json_error('Sesión no encontrada o ya procesada');
+            return;
         }
         
         // Verificar si Petplan está habilitado (con fallback)
@@ -315,7 +390,8 @@ class DoguifyComparador {
             if (function_exists('doguify_log')) {
                 doguify_log('error', "Error actualizando comparativa {$session_id}: " . $wpdb->last_error);
             }
-            wp_die(json_encode(array('success' => false, 'message' => 'Error al actualizar datos')));
+            wp_send_json_error('Error al actualizar datos');
+            return;
         }
         
         // Log de éxito
@@ -326,8 +402,7 @@ class DoguifyComparador {
         // Enviar email de notificación si está habilitado
         $this->send_notification_email($session_id, $datos, $precio);
         
-        wp_die(json_encode(array(
-            'success' => true,
+        wp_send_json_success(array(
             'precio' => $precio,
             'datos' => array(
                 'nombre' => $datos->nombre,
@@ -336,18 +411,20 @@ class DoguifyComparador {
                 'email' => $datos->email
             ),
             'redirect_url' => home_url('/doguify-resultado/?session_id=' . $session_id)
-        )));
+        ));
     }
     
     public function check_comparison_status() {
         if (!wp_verify_nonce($_POST['nonce'], 'doguify_nonce')) {
-            wp_die('Error de seguridad');
+            wp_send_json_error('Error de seguridad');
+            return;
         }
         
         $session_id = sanitize_text_field($_POST['session_id']);
         
         if (empty($session_id)) {
             wp_send_json_error('Sesión inválida');
+            return;
         }
         
         global $wpdb;
@@ -447,12 +524,14 @@ class DoguifyComparador {
     
     public function add_security_headers() {
         if (get_query_var('doguify_page') === 'espera') {
-            header('X-Frame-Options: DENY');
-            header('X-Content-Type-Options: nosniff');
-            header('X-XSS-Protection: 1; mode=block');
-            header('Cache-Control: no-cache, no-store, must-revalidate');
-            header('Pragma: no-cache');
-            header('Expires: 0');
+            if (!headers_sent()) {
+                header('X-Frame-Options: DENY');
+                header('X-Content-Type-Options: nosniff');
+                header('X-XSS-Protection: 1; mode=block');
+                header('Cache-Control: no-cache, no-store, must-revalidate');
+                header('Pragma: no-cache');
+                header('Expires: 0');
+            }
         }
     }
     
@@ -707,29 +786,6 @@ class DoguifyComparador {
         
         return isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : '0.0.0.0';
     }
-    
-    public function activate_plugin() {
-        // Crear tablas si no existen
-        if (function_exists('doguify_create_tables')) {
-            doguify_create_tables();
-        }
-        
-        // Configurar cron jobs
-        if (!wp_next_scheduled('doguify_daily_cleanup')) {
-            wp_schedule_event(time(), 'daily', 'doguify_daily_cleanup');
-        }
-        
-        // Flush rewrite rules
-        flush_rewrite_rules();
-    }
-    
-    public function deactivate_plugin() {
-        // Limpiar cron jobs
-        wp_clear_scheduled_hook('doguify_daily_cleanup');
-        
-        // Flush rewrite rules
-        flush_rewrite_rules();
-    }
 }
 
 /**
@@ -780,6 +836,23 @@ if (!function_exists('doguify_log')) {
         if (defined('WP_DEBUG') && WP_DEBUG) {
             error_log("[DOGUIFY {$level}] {$message}");
         }
+        
+        // Intentar guardar en base de datos si existe la tabla
+        global $wpdb;
+        $logs_table = $wpdb->prefix . 'doguify_logs';
+        
+        if ($wpdb->get_var("SHOW TABLES LIKE '$logs_table'") == $logs_table) {
+            $wpdb->insert(
+                $logs_table,
+                array(
+                    'level' => $level,
+                    'message' => $message,
+                    'fecha' => current_time('mysql'),
+                    'ip_address' => $_SERVER['REMOTE_ADDR'] ?? '0.0.0.0'
+                ),
+                array('%s', '%s', '%s', '%s')
+            );
+        }
     }
 }
 
@@ -822,4 +895,54 @@ if (!function_exists('doguify_generate_dynamic_css')) {
 }
 
 // Inicializar plugin
-new DoguifyComparador();
+new DoguifyComparador();<?php
+/**
+ * Plugin Name: Doguify Comparador de Seguros
+ * Description: Plugin completo para comparar seguros de mascotas con integración a Petplan
+ * Version: 1.0.0
+ * Author: Doguify
+ * Text Domain: doguify-comparador
+ */
+
+// Prevenir acceso directo
+if (!defined('ABSPATH')) {
+    exit;
+}
+
+// Definir constantes del plugin
+define('DOGUIFY_PLUGIN_URL', plugin_dir_url(__FILE__));
+define('DOGUIFY_PLUGIN_PATH', plugin_dir_path(__FILE__));
+define('DOGUIFY_PLUGIN_VERSION', '1.0.0');
+
+class DoguifyComparador {
+    
+    public function __construct() {
+        // Cargar dependencias ANTES de otros hooks
+        add_action('plugins_loaded', array($this, 'load_dependencies'), 1);
+        
+        add_action('init', array($this, 'init'));
+        add_action('wp_enqueue_scripts', array($this, 'enqueue_scripts'));
+        add_action('wp_ajax_doguify_procesar_comparativa', array($this, 'procesar_comparativa'));
+        add_action('wp_ajax_nopriv_doguify_procesar_comparativa', array($this, 'procesar_comparativa'));
+        add_action('wp_ajax_doguify_consultar_petplan', array($this, 'consultar_petplan'));
+        add_action('wp_ajax_nopriv_doguify_consultar_petplan', array($this, 'consultar_petplan'));
+        add_action('wp_ajax_doguify_check_status', array($this, 'check_comparison_status'));
+        add_action('wp_ajax_nopriv_doguify_check_status', array($this, 'check_comparison_status'));
+        add_action('template_redirect', array($this, 'handle_custom_pages'));
+        add_action('send_headers', array($this, 'add_security_headers'));
+        add_action('wp_head', array($this, 'add_waiting_page_head'));
+        
+        // Shortcodes
+        add_shortcode('doguify_formulario', array($this, 'mostrar_formulario'));
+        
+        // Cron jobs
+        add_action('doguify_daily_cleanup', array($this, 'cleanup_old_sessions'));
+    }
+    
+    public function load_dependencies() {
+        // Cargar instalador PRIMERO
+        if (file_exists(DOGUIFY_PLUGIN_PATH . 'includes/installer.php')) {
+            require_once DOGUIFY_PLUGIN_PATH . 'includes/installer.php';
+        }
+        
+        //
