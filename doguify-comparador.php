@@ -20,8 +20,8 @@ define('DOGUIFY_PLUGIN_VERSION', '1.0.0');
 class DoguifyComparador {
     
     public function __construct() {
-        // Cargar dependencias
-        $this->load_dependencies();
+        // Cargar dependencias ANTES de otros hooks
+        add_action('plugins_loaded', array($this, 'load_dependencies'), 1);
         
         add_action('init', array($this, 'init'));
         add_action('wp_enqueue_scripts', array($this, 'enqueue_scripts'));
@@ -46,23 +46,37 @@ class DoguifyComparador {
         add_action('doguify_daily_cleanup', array($this, 'cleanup_old_sessions'));
     }
     
-    private function load_dependencies() {
-        // Cargar archivos del plugin
-        require_once DOGUIFY_PLUGIN_PATH . 'includes/utilities.php';
-        require_once DOGUIFY_PLUGIN_PATH . 'includes/logger.php';
-        require_once DOGUIFY_PLUGIN_PATH . 'includes/installer.php';
-        require_once DOGUIFY_PLUGIN_PATH . 'includes/ajax-handlers.php';
-        require_once DOGUIFY_PLUGIN_PATH . 'includes/cron-jobs.php';
-        require_once DOGUIFY_PLUGIN_PATH . 'includes/webhooks.php';
-        require_once DOGUIFY_PLUGIN_PATH . 'includes/widgets.php';
-        
-        // Cargar configuración si existe
+    public function load_dependencies() {
+        // Cargar configuración PRIMERO
         if (file_exists(DOGUIFY_PLUGIN_PATH . 'includes/config.php')) {
             require_once DOGUIFY_PLUGIN_PATH . 'includes/config.php';
         }
         
+        // Cargar otros archivos del plugin
+        if (file_exists(DOGUIFY_PLUGIN_PATH . 'includes/utilities.php')) {
+            require_once DOGUIFY_PLUGIN_PATH . 'includes/utilities.php';
+        }
+        if (file_exists(DOGUIFY_PLUGIN_PATH . 'includes/logger.php')) {
+            require_once DOGUIFY_PLUGIN_PATH . 'includes/logger.php';
+        }
+        if (file_exists(DOGUIFY_PLUGIN_PATH . 'includes/installer.php')) {
+            require_once DOGUIFY_PLUGIN_PATH . 'includes/installer.php';
+        }
+        if (file_exists(DOGUIFY_PLUGIN_PATH . 'includes/ajax-handlers.php')) {
+            require_once DOGUIFY_PLUGIN_PATH . 'includes/ajax-handlers.php';
+        }
+        if (file_exists(DOGUIFY_PLUGIN_PATH . 'includes/cron-jobs.php')) {
+            require_once DOGUIFY_PLUGIN_PATH . 'includes/cron-jobs.php';
+        }
+        if (file_exists(DOGUIFY_PLUGIN_PATH . 'includes/webhooks.php')) {
+            require_once DOGUIFY_PLUGIN_PATH . 'includes/webhooks.php';
+        }
+        if (file_exists(DOGUIFY_PLUGIN_PATH . 'includes/widgets.php')) {
+            require_once DOGUIFY_PLUGIN_PATH . 'includes/widgets.php';
+        }
+        
         // Cargar panel admin si estamos en admin
-        if (is_admin()) {
+        if (is_admin() && file_exists(DOGUIFY_PLUGIN_PATH . 'admin/admin-panel.php')) {
             require_once DOGUIFY_PLUGIN_PATH . 'admin/admin-panel.php';
         }
     }
@@ -109,33 +123,56 @@ class DoguifyComparador {
             DOGUIFY_PLUGIN_VERSION
         );
         
+        // Configuración JavaScript segura
+        $config = $this->get_safe_config();
+        
         // Localizar variables para JavaScript
         wp_localize_script('doguify-comparador', 'doguify_ajax', array(
             'ajax_url' => admin_url('admin-ajax.php'),
             'nonce' => wp_create_nonce('doguify_nonce'),
             'espera_url' => home_url('/doguify-espera/'),
             'resultado_url' => home_url('/doguify-resultado/'),
-            'config' => array(
-                'loading_texts' => doguify_get_config('loading_texts', array(
-                    'trabajamos con los mejores proveedores<br>para que puedas comparar planes<br>y precios en un solo lugar',
-                    'analizando las mejores opciones<br>para tu mascota',
-                    'comparando precios y coberturas<br>en tiempo real',
-                    'finalizando tu comparativa<br>personalizada'
-                )),
-                'progress' => doguify_get_config('progress', array(
-                    'initial_delay' => 500,
-                    'text_change_interval' => 4000,
-                    'phases' => array(
-                        array('end' => 30, 'speed_min' => 1, 'speed_max' => 4),
-                        array('end' => 70, 'speed_min' => 0.5, 'speed_max' => 2.5),
-                        array('end' => 90, 'speed_min' => 0.2, 'speed_max' => 1.2),
-                        array('end' => 100, 'speed_min' => 0.1, 'speed_max' => 0.6)
-                    )
-                )),
-                'check_interval' => 5000,
-                'max_retries' => 3
-            )
+            'config' => $config
         ));
+    }
+    
+    /**
+     * Obtener configuración de forma segura (con fallbacks)
+     */
+    private function get_safe_config() {
+        // Valores por defecto si no existe la función doguify_get_config
+        $default_config = array(
+            'loading_texts' => array(
+                'trabajamos con los mejores proveedores<br>para que puedas comparar planes<br>y precios en un solo lugar',
+                'analizando las mejores opciones<br>para tu mascota',
+                'comparando precios y coberturas<br>en tiempo real',
+                'finalizando tu comparativa<br>personalizada'
+            ),
+            'progress' => array(
+                'initial_delay' => 500,
+                'text_change_interval' => 4000,
+                'phases' => array(
+                    array('end' => 30, 'speed_min' => 1, 'speed_max' => 4),
+                    array('end' => 70, 'speed_min' => 0.5, 'speed_max' => 2.5),
+                    array('end' => 90, 'speed_min' => 0.2, 'speed_max' => 1.2),
+                    array('end' => 100, 'speed_min' => 0.1, 'speed_max' => 0.6)
+                )
+            ),
+            'check_interval' => 5000,
+            'max_retries' => 3
+        );
+        
+        // Intentar usar configuración personalizada si existe
+        if (function_exists('doguify_get_config')) {
+            return array(
+                'loading_texts' => doguify_get_config('loading_texts', $default_config['loading_texts']),
+                'progress' => doguify_get_config('progress', $default_config['progress']),
+                'check_interval' => doguify_get_config('check_interval', $default_config['check_interval']),
+                'max_retries' => doguify_get_config('max_retries', $default_config['max_retries'])
+            );
+        }
+        
+        return $default_config;
     }
     
     public function mostrar_formulario($atts) {
@@ -144,7 +181,11 @@ class DoguifyComparador {
         ), $atts);
         
         ob_start();
-        include DOGUIFY_PLUGIN_PATH . 'templates/formulario.php';
+        if (file_exists(DOGUIFY_PLUGIN_PATH . 'templates/formulario.php')) {
+            include DOGUIFY_PLUGIN_PATH . 'templates/formulario.php';
+        } else {
+            echo '<p>Error: Template del formulario no encontrado.</p>';
+        }
         return ob_get_clean();
     }
     
@@ -198,14 +239,14 @@ class DoguifyComparador {
         );
         
         if ($resultado === false) {
-            // Log del error
+            // Log del error si la función existe
             if (function_exists('doguify_log')) {
                 doguify_log('error', 'Error al guardar comparativa: ' . $wpdb->last_error);
             }
             wp_die(json_encode(array('success' => false, 'message' => 'Error al guardar datos')));
         }
         
-        // Log de éxito
+        // Log de éxito si la función existe
         if (function_exists('doguify_log')) {
             doguify_log('info', "Nueva comparativa creada: {$session_id}");
         }
@@ -243,9 +284,13 @@ class DoguifyComparador {
             wp_die(json_encode(array('success' => false, 'message' => 'Sesión no encontrada o ya procesada')));
         }
         
-        // Verificar si Petplan está habilitado
-        $config = get_option('doguify_config', array());
-        if (empty($config['petplan_enabled'])) {
+        // Verificar si Petplan está habilitado (con fallback)
+        $petplan_enabled = true;
+        if (function_exists('doguify_get_config')) {
+            $petplan_enabled = doguify_get_config('petplan_enabled', true);
+        }
+        
+        if (!$petplan_enabled) {
             // Simular precio si Petplan está deshabilitado
             $precio = rand(300, 800) + (rand(0, 99) / 100);
         } else {
@@ -363,7 +408,11 @@ class DoguifyComparador {
             });
             
             // Incluir el template
-            include DOGUIFY_PLUGIN_PATH . 'templates/pagina-espera.php';
+            if (file_exists(DOGUIFY_PLUGIN_PATH . 'templates/pagina-espera.php')) {
+                include DOGUIFY_PLUGIN_PATH . 'templates/pagina-espera.php';
+            } else {
+                wp_die('Template de página de espera no encontrado');
+            }
             exit;
             
         } elseif ($doguify_page == 'resultado') {
@@ -387,7 +436,11 @@ class DoguifyComparador {
                 exit;
             }
             
-            include DOGUIFY_PLUGIN_PATH . 'templates/pagina-resultado.php';
+            if (file_exists(DOGUIFY_PLUGIN_PATH . 'templates/pagina-resultado.php')) {
+                include DOGUIFY_PLUGIN_PATH . 'templates/pagina-resultado.php';
+            } else {
+                wp_die('Template de página de resultados no encontrado');
+            }
             exit;
         }
     }
@@ -434,9 +487,11 @@ class DoguifyComparador {
             return floatval($cached_price);
         }
         
-        // Obtener timeout de configuración
-        $config = get_option('doguify_config', array());
-        $timeout = intval($config['petplan_timeout'] ?? 30);
+        // Obtener timeout de configuración (con fallback)
+        $timeout = 30;
+        if (function_exists('doguify_get_config')) {
+            $timeout = doguify_get_config('petplan_timeout', 30);
+        }
         
         // Realizar consulta
         $response = wp_remote_get($url_petplan, array(
@@ -459,16 +514,21 @@ class DoguifyComparador {
         
         $precio = isset($data['Precio']) ? floatval($data['Precio']) : (rand(300, 800) + (rand(0, 99) / 100));
         
-        // Cachear resultado
-        $cache_duration = intval($config['cache_duration'] ?? 60) * 60; // minutos a segundos
-        set_transient($cache_key, $precio, $cache_duration);
+        // Cachear resultado (con configuración por defecto)
+        $cache_duration = 60; // minutos por defecto
+        if (function_exists('doguify_get_config')) {
+            $cache_duration = doguify_get_config('cache_duration', 60);
+        }
+        set_transient($cache_key, $precio, $cache_duration * 60); // convertir a segundos
         
         return $precio;
     }
     
     private function trigger_webhook($session_id, $datos) {
-        $config = get_option('doguify_config', array());
-        $webhook_url = $config['webhook_url'] ?? '';
+        $webhook_url = '';
+        if (function_exists('doguify_get_config')) {
+            $webhook_url = doguify_get_config('webhook_url', '');
+        }
         
         if (empty($webhook_url)) {
             return;
@@ -490,13 +550,19 @@ class DoguifyComparador {
     }
     
     private function send_notification_email($session_id, $datos, $precio) {
-        $config = get_option('doguify_config', array());
+        $email_notifications = false;
+        $admin_email = get_option('admin_email');
+        $user_confirmation_email = false;
         
-        if (empty($config['email_notifications'])) {
-            return;
+        if (function_exists('doguify_get_config')) {
+            $email_notifications = doguify_get_config('email_notifications', false);
+            $admin_email = doguify_get_config('admin_email', get_option('admin_email'));
+            $user_confirmation_email = doguify_get_config('user_confirmation_email', false);
         }
         
-        $admin_email = $config['admin_email'] ?? get_option('admin_email');
+        if (!$email_notifications) {
+            return;
+        }
         
         $subject = '🐕 Nueva comparativa completada - Doguify';
         $message = "Se ha completado una nueva comparativa:\n\n";
@@ -511,7 +577,7 @@ class DoguifyComparador {
         wp_mail($admin_email, $subject, $message);
         
         // Email al usuario si está habilitado
-        if (!empty($config['user_confirmation_email'])) {
+        if ($user_confirmation_email) {
             $user_subject = 'Comparativa de seguros para ' . $datos->nombre;
             $user_message = "Hola,\n\n";
             $user_message .= "Tu comparativa para {$datos->nombre} ha sido procesada.\n";
@@ -527,8 +593,10 @@ class DoguifyComparador {
     public function cleanup_old_sessions() {
         global $wpdb;
         
-        $config = get_option('doguify_config', array());
-        $retention_days = intval($config['data_retention_days'] ?? 730);
+        $retention_days = 730; // Por defecto 2 años
+        if (function_exists('doguify_get_config')) {
+            $retention_days = doguify_get_config('data_retention_days', 730);
+        }
         
         // Eliminar comparativas antiguas
         $deleted = $wpdb->query($wpdb->prepare(
@@ -537,12 +605,15 @@ class DoguifyComparador {
             date('Y-m-d H:i:s', strtotime("-{$retention_days} days"))
         ));
         
-        // Eliminar logs antiguos
-        $wpdb->query($wpdb->prepare(
-            "DELETE FROM {$wpdb->prefix}doguify_logs 
-             WHERE fecha < %s",
-            date('Y-m-d H:i:s', strtotime('-30 days'))
-        ));
+        // Eliminar logs antiguos si la tabla existe
+        $logs_table = $wpdb->prefix . 'doguify_logs';
+        if ($wpdb->get_var("SHOW TABLES LIKE '$logs_table'") == $logs_table) {
+            $wpdb->query($wpdb->prepare(
+                "DELETE FROM {$logs_table} 
+                 WHERE fecha < %s",
+                date('Y-m-d H:i:s', strtotime('-30 days'))
+            ));
+        }
         
         if (function_exists('doguify_log')) {
             doguify_log('info', "Limpieza automática completada. Eliminadas {$deleted} comparativas antiguas.");
@@ -590,9 +661,11 @@ class DoguifyComparador {
         }
         
         // Validar fecha de nacimiento
-        if (function_exists('DoguifyUtilities::validate_birth_date')) {
+        if (class_exists('DoguifyUtilities') && method_exists('DoguifyUtilities', 'validate_birth_date')) {
             if (!DoguifyUtilities::validate_birth_date($resultado['edad_dia'], $resultado['edad_mes'], $resultado['edad_año'])) {
-                $error_message = DoguifyUtilities::get_birth_date_validation_error($resultado['edad_dia'], $resultado['edad_mes'], $resultado['edad_año']);
+                $error_message = method_exists('DoguifyUtilities', 'get_birth_date_validation_error') ? 
+                    DoguifyUtilities::get_birth_date_validation_error($resultado['edad_dia'], $resultado['edad_mes'], $resultado['edad_año']) :
+                    'Fecha de nacimiento inválida';
                 $errores[] = $error_message ?: 'Fecha de nacimiento inválida';
             }
         } else {
@@ -656,6 +729,95 @@ class DoguifyComparador {
         
         // Flush rewrite rules
         flush_rewrite_rules();
+    }
+}
+
+/**
+ * Funciones de fallback si no existe config.php
+ */
+if (!function_exists('doguify_get_config')) {
+    function doguify_get_config($key = null, $default = null) {
+        $config = array(
+            'petplan_enabled' => true,
+            'petplan_timeout' => 30,
+            'cache_duration' => 60,
+            'email_notifications' => false,
+            'admin_email' => get_option('admin_email'),
+            'user_confirmation_email' => false,
+            'webhook_url' => '',
+            'data_retention_days' => 730,
+            'loading_texts' => array(
+                'trabajamos con los mejores proveedores<br>para que puedas comparar planes<br>y precios en un solo lugar',
+                'analizando las mejores opciones<br>para tu mascota',
+                'comparando precios y coberturas<br>en tiempo real',
+                'finalizando tu comparativa<br>personalizada'
+            ),
+            'progress' => array(
+                'initial_delay' => 500,
+                'text_change_interval' => 4000,
+                'phases' => array(
+                    array('end' => 30, 'speed_min' => 1, 'speed_max' => 4),
+                    array('end' => 70, 'speed_min' => 0.5, 'speed_max' => 2.5),
+                    array('end' => 90, 'speed_min' => 0.2, 'speed_max' => 1.2),
+                    array('end' => 100, 'speed_min' => 0.1, 'speed_max' => 0.6)
+                )
+            ),
+            'check_interval' => 5000,
+            'max_retries' => 3
+        );
+        
+        if ($key === null) {
+            return $config;
+        }
+        
+        return isset($config[$key]) ? $config[$key] : $default;
+    }
+}
+
+if (!function_exists('doguify_log')) {
+    function doguify_log($level, $message) {
+        // Log básico usando error_log si no existe el sistema de logs
+        if (defined('WP_DEBUG') && WP_DEBUG) {
+            error_log("[DOGUIFY {$level}] {$message}");
+        }
+    }
+}
+
+if (!function_exists('doguify_generate_dynamic_css')) {
+    function doguify_generate_dynamic_css() {
+        // CSS básico si no existe la función principal
+        ob_start();
+        ?>
+        <style id="doguify-dynamic-css">
+        :root {
+            --doguify-primary-start: #4A90E2;
+            --doguify-primary-middle: #357ABD;
+            --doguify-primary-end: #2E6DA4;
+            --doguify-wave-color: #ECF3FD;
+            --doguify-text-color: #FFFFFF;
+        }
+        
+        .doguify-waiting-page-wrapper {
+            background: linear-gradient(135deg, 
+                var(--doguify-primary-start) 0%, 
+                var(--doguify-primary-middle) 50%, 
+                var(--doguify-primary-end) 100%) !important;
+        }
+        
+        .doguify-wave {
+            background: var(--doguify-wave-color);
+        }
+        
+        .doguify-wave:nth-child(2) {
+            background: rgba(236, 243, 253, 0.8);
+        }
+        
+        .doguify-wave:nth-child(3) {
+            background: rgba(236, 243, 253, 0.6);
+        }
+        </style>
+        <?php
+        return ob_get_clean();
     }
 }
 
